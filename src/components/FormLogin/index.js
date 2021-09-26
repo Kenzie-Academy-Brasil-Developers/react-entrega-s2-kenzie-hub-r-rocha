@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -11,14 +12,14 @@ const FormLogin = () => {
   const history = useHistory();
 
   const schema = yup.object().shape({
-    email: yup.string().email("Email inválido").required("Campo obrigatório"),
+    email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
     password: yup
       .string()
       .min(6, "Mínimo de 6 caracteres")
-    //   .matches(
-    //     /^((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-    //     "Senha deve conter ao menos uma letra maiúscula, uma minúscula, um número e um caracter especial!"
-    //   )
+      //   .matches(
+      //     /^((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
+      //     "Senha deve conter ao menos uma letra maiúscula, uma minúscula, um número e um caracter especial!"
+      //   )
       .required("Campo obrigatório"),
   });
 
@@ -29,22 +30,24 @@ const FormLogin = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleForm = (data) => {
-    console.log(data);
     axios
       .post("https://kenziehub.herokuapp.com/sessions", data)
       .then((response) => {
         localStorage.clear();
-        localStorage.setItem("token", JSON.stringify(response.data.token));
+        localStorage.setItem(
+          "@KenzieHub:token",
+          JSON.stringify(response.data.token)
+        );
         toast.success("Login realizado com sucesso", {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
         });
-        setTimeout(history.push("/home"), 15000);
+        setTimeout(() => history.push("/home"), 1500);
       })
       .catch((error) => {
         // Error 😨
@@ -52,9 +55,7 @@ const FormLogin = () => {
           /*
            * The request was made and the server responded with a
            * status code that falls out of the range of 2xx
-           
-          alert(error.response.data.message);
-          */
+           */
           toast.error(error.response.data.message, {
             position: "top-right",
             autoClose: 5000,

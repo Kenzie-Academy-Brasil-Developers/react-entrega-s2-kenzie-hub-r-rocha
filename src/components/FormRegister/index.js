@@ -43,16 +43,16 @@ const FormRegister = () => {
         console.log(response);
         localStorage.clear();
         localStorage.setItem("token", JSON.stringify(response.data.token));
-        history.push("/home");
-        toast.error("Cadastro realizado com sucesso", {
+        toast.success("Cadastro realizado com sucesso", {
           position: "top-right",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
         });
+        setTimeout(() => history.push("/login"), 4000);
       })
       .catch((error) => {
         // Error 😨
@@ -60,9 +60,7 @@ const FormRegister = () => {
           /*
            * The request was made and the server responded with a
            * status code that falls out of the range of 2xx
-           
-          alert(error.response.data.message);
-          */
+           */
           toast.error(error.response.data.message, {
             position: "top-right",
             autoClose: 5000,

@@ -1,33 +1,28 @@
 import "./style.css";
 import { Button, Box } from "@material-ui/core";
 import working from "../../images/working-with-laptop.png";
+import { useHistory } from "react-router-dom";
 
-const StartPage = ({ user, history }) => {
-  console.log(user);
-  console.log(history);
+const StartPage = () => {
+  const history = useHistory();
+
+  const sendTo = (path) => {
+    history.push(path);
+  };
   return (
-    /** <Grid container spacing={2} mt={10}>
-      <Grid item xs={6} sm={3}>
-        <img src={working} alt="Authentication" />
-      </Grid>
-      <Grid item xs={6}>
-        <Button variant="contained">
-          LOGIN
-        </Button>
-        <Button variant="contained">
-          CADASTRE-SE
-        </Button>
-      </Grid>
-    </Grid> */
     <>
       <Box component="div" sx={{ width: "auto" }} mt={7}>
         <img src={working} alt="Authentication" />
       </Box>
       <Box sx={{ width: "100%" }}>
-        <Button variant="contained">LOGIN</Button>
+        <Button variant="contained" onClick={() => sendTo("/login")}>
+          LOGIN
+        </Button>
       </Box>
       <Box mt={3}>
-        <Button variant="text">CADASTRE-SE</Button>
+        <Button variant="text" onClick={() => sendTo("/register")}>
+          CADASTRE-SE
+        </Button>
       </Box>
     </>
   );
