@@ -41,7 +41,7 @@ const Home = () => {
       </Button>
     </>
   ) : (
-    <Stack sx={{ width: "25%" }} spacing={2} mt={50}>
+    <Stack sx={{ width: "75%" }} spacing={2} mt={25}>
       <Alert
         variant="filled"
         severity="warning"
