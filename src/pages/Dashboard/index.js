@@ -4,15 +4,11 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import FormTechs from "../../components/FormTechs";
 
-const Dashboard = () => {
-  
-  const [authenticated, setAuthenticated] = useState(false);
-  
-  const [user, setUser] = useState({});
+const Dashboard = ({ authenticated, setAuthenticated, setUser, user }) => {
 
   const [token, setToken] = useState(() => {
     const localToken = localStorage.getItem("token") || "";
-    return localToken;
+    return JSON.parse(localToken);
   });
 
   const history = useHistory();
@@ -26,12 +22,12 @@ const Dashboard = () => {
   useEffect(() => {
     if (token !== "") {
       axios
-        .get("https://kenziehub.herokuapp.com/profile", {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+      .get("https://kenziehub.herokuapp.com/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
         .then((response) => {
-          setUser(response.data);
           setAuthenticated(true);
+          setUser(response.data);
         })
         .catch((e) => console.log(e));
     }

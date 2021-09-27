@@ -8,7 +8,7 @@ import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const FormLogin = () => {
+const FormLogin = ({ setAuthenticated }) => {
   const history = useHistory();
 
   const schema = yup.object().shape({
@@ -35,10 +35,7 @@ const FormLogin = () => {
       .post("https://kenziehub.herokuapp.com/sessions", data)
       .then((response) => {
         localStorage.clear();
-        localStorage.setItem(
-          "token",
-          JSON.stringify(response.data.token)
-        );
+        localStorage.setItem("token", JSON.stringify(response.data.token));
         toast.success("Login realizado com sucesso", {
           position: "top-right",
           autoClose: 1000,
@@ -48,6 +45,7 @@ const FormLogin = () => {
           draggable: true,
           progress: undefined,
         });
+        setAuthenticated(true);
         setTimeout(() => history.push("/dashboard"), 1500);
       })
       .catch((error) => {

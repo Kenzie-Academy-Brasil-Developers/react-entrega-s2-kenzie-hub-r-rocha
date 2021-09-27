@@ -30,7 +30,6 @@ const FormTechs = ({ token }) => {
    **/
 
   const handleForm = (data) => {
-    console.log(data);
     axios
       .post("https://kenziehub.herokuapp.com/users/tech", {
         headers: { Authorization: `Bearer ${token}` },

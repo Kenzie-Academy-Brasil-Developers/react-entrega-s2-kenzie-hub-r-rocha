@@ -3,21 +3,26 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import StartPage from "../pages/StartPage";
 import Dashboard from "../pages/Dashboard";
+import { useState } from "react";
 
 const Routes = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+
+  const [user, setUser] = useState({});
+
   return (
     <Switch>
       <Route exact path="/">
         <StartPage />
       </Route>
       <Route path="/login">
-        <Login />
+        <Login setAuthenticated={setAuthenticated} />
       </Route>
       <Route path="/register">
         <Register />
       </Route>
       <Route path="/dashboard">
-        <Dashboard />
+        <Dashboard authenticated={authenticated} setAuthenticated={setAuthenticated} setUser={setUser} user={user} />
       </Route>
     </Switch>
   );
