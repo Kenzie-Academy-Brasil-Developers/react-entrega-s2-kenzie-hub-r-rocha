@@ -1,4 +1,6 @@
-import { AppBar, MenuItem, Toolbar } from "@material-ui/core";
+import * as React from "react";
+import { AppBar, IconButton, MenuItem, Toolbar } from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 import { useHistory } from "react-router-dom";
 
 const Menu = () => {
@@ -11,9 +13,18 @@ const Menu = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <MenuItem onClick={() => sendTo("/home")}>Home</MenuItem>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+        >
+          <MenuIcon />
+        </IconButton>
         <MenuItem onClick={() => sendTo("/login")}>Login</MenuItem>
-        <MenuItem onClick={() => sendTo("/register")}>Register</MenuItem>
+        <MenuItem onClick={() => sendTo("/register")}>Registro</MenuItem>
+        <MenuItem onClick={() => sendTo("/dashboard")}>Dashboard</MenuItem>
       </Toolbar>
     </AppBar>
   );

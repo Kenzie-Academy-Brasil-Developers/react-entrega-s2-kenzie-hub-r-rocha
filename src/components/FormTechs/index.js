@@ -1,26 +1,17 @@
 import * as yup from "yup";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button, TextField, Typography } from "@material-ui/core";
+import { Box, Button, TextField } from "@material-ui/core";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const FormLogin = () => {
-  const history = useHistory();
-
+const FormTechs = ({ token }) => {
   const schema = yup.object().shape({
-    email: yup.string().email("E-mail inválido").required("Campo obrigatório"),
-    password: yup
-      .string()
-      .min(6, "Mínimo de 6 caracteres")
-      //   .matches(
-      //     /^((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-      //     "Senha deve conter ao menos uma letra maiúscula, uma minúscula, um número e um caracter especial!"
-      //   )
-      .required("Campo obrigatório"),
+    title: yup.string().required("Título é obrigatório"),
+    status: yup.string().required("Status é obrigatório"),
   });
 
   const {
@@ -29,17 +20,25 @@ const FormLogin = () => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
+  /** Função utilizada no Select
+   * const [status, setStatus] = useState("");
+   *
+   * const handleChange = (event) => {
+   *    console.log(event.currentTarget);
+   *    setStatus(event.currentTarget);
+   * };
+   **/
+
   const handleForm = (data) => {
     console.log(data);
     axios
-      .post("https://kenziehub.herokuapp.com/sessions", data)
+      .post("https://kenziehub.herokuapp.com/users/tech", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((response) => {
-        localStorage.clear();
-        localStorage.setItem(
-          "token",
-          JSON.stringify(response.data.token)
-        );
-        toast.success("Login realizado com sucesso", {
+        console.log("Entrei aqui e não fiz nada");
+        console.log(response.data);
+        /** toast.success("Tecnologia cadastrada com sucesso", {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -48,7 +47,7 @@ const FormLogin = () => {
           draggable: true,
           progress: undefined,
         });
-        setTimeout(() => history.push("/dashboard"), 1500);
+        setTimeout(() => history.push("/home"), 1500); **/
       })
       .catch((error) => {
         // Error 😨
@@ -92,38 +91,55 @@ const FormLogin = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          height: 300,
-          width: 300,
-          mt: 25,
         }}
         component="form"
       >
-        <Typography variant="h3" color="secondary">
-          Login
-        </Typography>
+        <TextField
+          fullWidth
+          label="Titulo"
+          margin="normal"
+          variant="outlined"
+          size="small"
+          color="primary"
+          {...register("title")}
+          error={!!errors.title}
+          helperText={errors.title?.message}
+        />
+        <TextField
+          fullWidth
+          label="Satus"
+          margin="normal"
+          variant="outlined"
+          size="small"
+          color="primary"
+          {...register("status")}
+          error={!!errors.status}
+          helperText={errors.status?.message}
+        />
 
-        <TextField
-          fullWidth
-          label="Email"
-          margin="normal"
-          variant="outlined"
-          size="small"
-          color="primary"
-          {...register("email")}
-          error={!!errors.email}
-          helperText={errors.email?.message}
-        />
-        <TextField
-          fullWidth
-          label="Password"
-          margin="normal"
-          variant="outlined"
-          size="small"
-          color="primary"
-          {...register("password")}
-          error={!!errors.password}
-          helperText={errors.password?.message}
-        />
+        {/** Não consegui implementar o Select */}
+        {/* <FormControl fullWidth>
+          <InputLabel id="demo-simple-select-error-label">Status</InputLabel>
+          <Select
+            labelId="demo-simple-select-error-label"
+            id="demo-simple-select-error"
+            value={status}
+            label="Status"
+            onChange={handleChange}
+            {...register("status")}
+            error={!!errors.status}
+            helperText={errors.status?.message}
+          >
+            <MenuItem value="">
+              <em>Nenhum</em>
+            </MenuItem>
+            <MenuItem value={10}>Iniciante</MenuItem>
+            <MenuItem value={20}>Intermediário</MenuItem>
+            <MenuItem value={30}>Avançado</MenuItem>
+          </Select>
+          <FormHelperText error>{errors.status?.message}</FormHelperText>
+        </FormControl> */}
+
         <Button
           type="submit"
           variant="contained"
@@ -135,19 +151,8 @@ const FormLogin = () => {
         >
           Enviar
         </Button>
-        <Button
-          type="submit"
-          variant="text"
-          color="secondary"
-          size="large"
-          fullWidth
-          sx={{ my: 1 }}
-          onClick={() => history.push("/register")}
-        >
-          Sign Up
-        </Button>
       </Box>
     </>
   );
 };
-export default FormLogin;
+export default FormTechs;
