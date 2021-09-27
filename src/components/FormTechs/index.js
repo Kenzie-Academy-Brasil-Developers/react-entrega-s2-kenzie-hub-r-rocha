@@ -31,16 +31,6 @@ const FormTechs = ({ token, user }) => {
 
   const history = useHistory();
 
-  /** Função utilizada no Select 
-
-  const [status, setStatus] = useState("");
-
-  const handleChange = (event) => {
-    console.log(event.currentTarget);
-    setStatus(event.currentTarget);
-  }; 
-  */
-
   const handleForm = (data) => {
     console.log(user);
     axios
@@ -123,13 +113,13 @@ const FormTechs = ({ token, user }) => {
             <MenuItem value={''}>
               <em>Nenhum</em>
             </MenuItem>
-            <MenuItem selected value={"Iniciante"}>
+            <MenuItem value={"Iniciante"}>
               Iniciante
             </MenuItem>
-            <MenuItem selected value={"Intermediário"}>
+            <MenuItem value={"Intermediário"}>
               Intermediário
             </MenuItem>
-            <MenuItem selected value={"Avançado"}>
+            <MenuItem value={"Avançado"}>
               Avançado
             </MenuItem>
           </Select>

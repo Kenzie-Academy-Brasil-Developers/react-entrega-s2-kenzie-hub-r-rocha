@@ -9,7 +9,11 @@ const Dashboard = ({ authenticated, setAuthenticated, setUser, user }) => {
 
   const [token, setToken] = useState(() => {
     const localToken = localStorage.getItem("token") || "";
-    return JSON.parse(localToken);
+    if (localToken !== "") {
+      return JSON.parse(localToken);
+    } else {
+      return localToken;
+    }
   });
 
   const history = useHistory();
