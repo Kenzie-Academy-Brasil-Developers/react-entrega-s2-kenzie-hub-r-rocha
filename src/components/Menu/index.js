@@ -19,6 +19,7 @@ const Menu = () => {
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
+          onClick={() => sendTo("/")}
         >
           <MenuIcon />
         </IconButton>
