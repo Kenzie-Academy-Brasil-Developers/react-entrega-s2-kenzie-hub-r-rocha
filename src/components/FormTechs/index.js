@@ -3,13 +3,21 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button, FormControl, FormHelperText, InputLabel, Select, MenuItem, TextField } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  Select,
+  MenuItem,
+  TextField,
+} from "@material-ui/core";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useState } from "react";
 
-const FormTechs = ({ token }) => {
+const FormTechs = ({ token, user }) => {
   const schema = yup.object().shape({
     title: yup.string().required("Título é obrigatório"),
     status: yup.string().required("Status é obrigatório"),
@@ -23,16 +31,18 @@ const FormTechs = ({ token }) => {
 
   const history = useHistory();
 
-  /** Função utilizada no Select */
+  /** Função utilizada no Select 
 
   const [status, setStatus] = useState("");
 
   const handleChange = (event) => {
     console.log(event.currentTarget);
     setStatus(event.currentTarget);
-  };
+  }; 
+  */
 
   const handleForm = (data) => {
+    console.log(user);
     axios
       .post("https://kenziehub.herokuapp.com/users/techs", data, {
         headers: { Authorization: `Bearer ${token}` },
@@ -107,31 +117,25 @@ const FormTechs = ({ token }) => {
           error={!!errors.title}
           helperText={errors.title?.message}
         />
-        {/** <TextField
-          fullWidth
-          label="Satus"
-          margin="normal"
-          variant="outlined"
-          size="small"
-          color="primary"
-          {...register("status")}
-          error={!!errors.status}
-          helperText={errors.status?.message}
-        /> */} 
-
-        {/** Não consegui implementar o Select */}
         <FormControl fullWidth>
           <InputLabel id="select-label">Status</InputLabel>
-          <Select
-            labelId="select-label"
-            id="status"
-            {...register("status")}
-          >
-            <MenuItem selected value={"Iniciante"}>Iniciante</MenuItem>
-            <MenuItem selected value={"Intermediário"}>Intermediário</MenuItem>
-            <MenuItem selected value={"Avançado"}>Avançado</MenuItem>
+          <Select labelId="select-label" id="status" {...register("status")}>
+            <MenuItem value={''}>
+              <em>Nenhum</em>
+            </MenuItem>
+            <MenuItem selected value={"Iniciante"}>
+              Iniciante
+            </MenuItem>
+            <MenuItem selected value={"Intermediário"}>
+              Intermediário
+            </MenuItem>
+            <MenuItem selected value={"Avançado"}>
+              Avançado
+            </MenuItem>
           </Select>
-          <FormHelperText id="my-helper-text" error>{errors.status?.message}</FormHelperText>
+          <FormHelperText id="my-helper-text" error>
+            {errors.status?.message}
+          </FormHelperText>
         </FormControl>
 
         <Button

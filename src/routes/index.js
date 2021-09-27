@@ -8,7 +8,7 @@ import { useState } from "react";
 const Routes = () => {
   const [authenticated, setAuthenticated] = useState(false);
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState([]);
 
   return (
     <Switch>
@@ -23,6 +23,9 @@ const Routes = () => {
       </Route>
       <Route path="/dashboard">
         <Dashboard authenticated={authenticated} setAuthenticated={setAuthenticated} setUser={setUser} user={user} />
+      </Route>
+      <Route>
+
       </Route>
     </Switch>
   );

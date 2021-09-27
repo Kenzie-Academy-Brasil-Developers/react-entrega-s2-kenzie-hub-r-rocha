@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import FormTechs from "../../components/FormTechs";
 
 const Dashboard = ({ authenticated, setAuthenticated, setUser, user }) => {
+  const [techs, setTechs] = useState([]);
 
   const [token, setToken] = useState(() => {
     const localToken = localStorage.getItem("token") || "";
@@ -22,9 +23,9 @@ const Dashboard = ({ authenticated, setAuthenticated, setUser, user }) => {
   useEffect(() => {
     if (token !== "") {
       axios
-      .get("https://kenziehub.herokuapp.com/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
+        .get("https://kenziehub.herokuapp.com/profile", {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then((response) => {
           setAuthenticated(true);
           setUser(response.data);
@@ -61,7 +62,12 @@ const Dashboard = ({ authenticated, setAuthenticated, setUser, user }) => {
         >
           Cadastre aqui as tecnologias que você conhece
         </Typography>
-        <FormTechs token={token} />
+        <FormTechs token={token} user={user} />
+      </Box>
+      <Box>
+        {techs.map((elem) => (
+          <>{elem.techs.title}</>
+        ))}
       </Box>
     </>
   ) : (
