@@ -1,12 +1,13 @@
 import * as yup from "yup";
 import axios from "axios";
-import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Button, TextField } from "@material-ui/core";
+import { Box, Button, FormControl, FormHelperText, InputLabel, Select, MenuItem, TextField } from "@material-ui/core";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
 
 const FormTechs = ({ token }) => {
   const schema = yup.object().shape({
@@ -20,24 +21,25 @@ const FormTechs = ({ token }) => {
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema) });
 
-  /** Função utilizada no Select
-   * const [status, setStatus] = useState("");
-   *
-   * const handleChange = (event) => {
-   *    console.log(event.currentTarget);
-   *    setStatus(event.currentTarget);
-   * };
-   **/
+  const history = useHistory();
+
+  /** Função utilizada no Select */
+
+  const [status, setStatus] = useState("");
+
+  const handleChange = (event) => {
+    console.log(event.currentTarget);
+    setStatus(event.currentTarget);
+  };
 
   const handleForm = (data) => {
     axios
-      .post("https://kenziehub.herokuapp.com/users/tech", {
+      .post("https://kenziehub.herokuapp.com/users/techs", data, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        console.log("Entrei aqui e não fiz nada");
-        console.log(response.data);
-        /** toast.success("Tecnologia cadastrada com sucesso", {
+        console.log(JSON.stringify(response.data));
+        toast.success("Tecnologia cadastrada com sucesso", {
           position: "top-right",
           autoClose: 1000,
           hideProgressBar: false,
@@ -46,7 +48,7 @@ const FormTechs = ({ token }) => {
           draggable: true,
           progress: undefined,
         });
-        setTimeout(() => history.push("/home"), 1500); **/
+        setTimeout(() => history.push("/dashboard"), 1500);
       })
       .catch((error) => {
         // Error 😨
@@ -92,6 +94,7 @@ const FormTechs = ({ token }) => {
           alignItems: "center",
         }}
         component="form"
+        onSubmit={handleSubmit(handleForm)}
       >
         <TextField
           fullWidth
@@ -104,7 +107,7 @@ const FormTechs = ({ token }) => {
           error={!!errors.title}
           helperText={errors.title?.message}
         />
-        <TextField
+        {/** <TextField
           fullWidth
           label="Satus"
           margin="normal"
@@ -114,30 +117,22 @@ const FormTechs = ({ token }) => {
           {...register("status")}
           error={!!errors.status}
           helperText={errors.status?.message}
-        />
+        /> */} 
 
         {/** Não consegui implementar o Select */}
-        {/* <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-error-label">Status</InputLabel>
+        <FormControl fullWidth>
+          <InputLabel id="select-label">Status</InputLabel>
           <Select
-            labelId="demo-simple-select-error-label"
-            id="demo-simple-select-error"
-            value={status}
-            label="Status"
-            onChange={handleChange}
+            labelId="select-label"
+            id="status"
             {...register("status")}
-            error={!!errors.status}
-            helperText={errors.status?.message}
           >
-            <MenuItem value="">
-              <em>Nenhum</em>
-            </MenuItem>
-            <MenuItem value={10}>Iniciante</MenuItem>
-            <MenuItem value={20}>Intermediário</MenuItem>
-            <MenuItem value={30}>Avançado</MenuItem>
+            <MenuItem selected value={"Iniciante"}>Iniciante</MenuItem>
+            <MenuItem selected value={"Intermediário"}>Intermediário</MenuItem>
+            <MenuItem selected value={"Avançado"}>Avançado</MenuItem>
           </Select>
-          <FormHelperText error>{errors.status?.message}</FormHelperText>
-        </FormControl> */}
+          <FormHelperText id="my-helper-text" error>{errors.status?.message}</FormHelperText>
+        </FormControl>
 
         <Button
           type="submit"
@@ -146,7 +141,6 @@ const FormTechs = ({ token }) => {
           size="large"
           fullWidth
           sx={{ my: 1 }}
-          onClick={handleSubmit(handleForm)}
         >
           Enviar
         </Button>
