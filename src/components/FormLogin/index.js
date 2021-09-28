@@ -46,7 +46,7 @@ const FormLogin = ({ setAuthenticated }) => {
           progress: undefined,
         });
         setAuthenticated(true);
-        setTimeout(() => history.push("/dashboard"), 1500);
+        history.push("/dashboard");
       })
       .catch((error) => {
         // Error 😨
