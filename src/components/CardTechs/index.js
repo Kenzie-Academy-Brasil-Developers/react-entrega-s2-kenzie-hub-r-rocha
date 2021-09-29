@@ -8,11 +8,13 @@ import {
 } from "@material-ui/core";
 
 const CardTechs = ({ techs }) => {
-  return (
+  return !techs ? (
+    <div>Não logado</div>
+  ) : (
     <Grid container justifyContent="center">
       {techs.map((elem, index) => (
         <Grid key={index} item m={3} borderRadius={5}>
-          <Card sx={{bgcolor: "hsla(120, 100%, 75%, 0.3)"}}>
+          <Card sx={{ bgcolor: "hsla(120, 100%, 75%, 0.3)" }}>
             <CardContent>
               <Typography variant="h5" component="div">
                 {elem.title}

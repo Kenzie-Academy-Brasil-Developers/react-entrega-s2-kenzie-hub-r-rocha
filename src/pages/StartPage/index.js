@@ -1,4 +1,3 @@
-import "./style.css";
 import { Button, Box } from "@material-ui/core";
 import working from "../../images/working-with-laptop.png";
 import { useHistory } from "react-router-dom";
