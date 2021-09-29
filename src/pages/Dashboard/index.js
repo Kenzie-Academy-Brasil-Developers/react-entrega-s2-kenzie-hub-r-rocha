@@ -21,7 +21,7 @@ const Dashboard = ({ authenticated, setAuthenticated }) => {
   const history = useHistory();
 
   const handleClick = () => {
-    setAuthenticated(false);
+    setAuthenticated(false);  
     localStorage.clear();
     history.push("/");
   };
@@ -32,6 +32,7 @@ const Dashboard = ({ authenticated, setAuthenticated }) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
+        setAuthenticated(true);
         setUser(response.data);
         setTechs(response.data.techs);
       })
@@ -71,15 +72,18 @@ const Dashboard = ({ authenticated, setAuthenticated }) => {
           Cadastre aqui as tecnologias que você conhece
         </Typography>
       </Box>
-      <FormTechs token={token} />
-      <CardTechs techs={techs} />
+      <Grid container>
+        <Grid item>
+          <FormTechs token={token} />
+        </Grid>
+        <Grid item>
+          <CardTechs techs={techs} />{" "}
+        </Grid>
+      </Grid>
     </>
   ) : (
-    <Stack sx={{ width: "75%" }} spacing={2} mt={25}>
-      <Alert
-        variant="filled"
-        severity="warning"
-      >
+    <Stack sx={{ width: "55%" }} spacing={2} mt={25}>
+      <Alert variant="filled" severity="warning">
         Acesso não autorizado
       </Alert>
     </Stack>

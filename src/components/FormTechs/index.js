@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, TextField } from "@material-ui/core";
 
 const FormTechs = ({ token }) => {
-  
+
   const schema = yup.object().shape({
     title: yup.string().required("Título é obrigatório"),
     status: yup.string().required("Status é obrigatório"),
@@ -18,7 +18,6 @@ const FormTechs = ({ token }) => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleForm = (data) => {
-    console.log(data);
     axios
       .post("https://kenziehub.herokuapp.com/users/techs", data, {
         headers: { Authorization: `Bearer ${token}` },

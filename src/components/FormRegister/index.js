@@ -4,8 +4,6 @@ import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const FormRegister = () => {
   const history = useHistory();
@@ -40,19 +38,9 @@ const FormRegister = () => {
     axios
       .post("https://kenziehub.herokuapp.com/users", data)
       .then((response) => {
-        console.log(response);
         localStorage.clear();
         localStorage.setItem("token", JSON.stringify(response.data.token));
-        toast.success("Cadastro realizado com sucesso", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
-        setTimeout(() => history.push("/login"), 4000);
+        history.push("/login");
       })
       .catch((error) => {
         // Error 😨
@@ -61,15 +49,7 @@ const FormRegister = () => {
            * The request was made and the server responded with a
            * status code that falls out of the range of 2xx
            */
-          toast.error(error.response.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          alert(error.response.data.message);
         } else {
           // Something happened in setting up the request and triggered an Error
           console.log("Error", error.message);
@@ -78,19 +58,6 @@ const FormRegister = () => {
   };
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      {/* Same as */}
-      <ToastContainer />
       <Box
         sx={{
           display: "flex",
@@ -124,6 +91,7 @@ const FormRegister = () => {
           variant="outlined"
           size="small"
           color="primary"
+          type="password"
           {...register("password")}
           error={!!errors.password}
           helperText={errors.password?.message}

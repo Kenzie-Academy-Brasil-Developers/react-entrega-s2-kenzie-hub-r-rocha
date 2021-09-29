@@ -5,9 +5,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
 const FormLogin = ({ setAuthenticated }) => {
   const history = useHistory();
 
@@ -36,15 +33,6 @@ const FormLogin = ({ setAuthenticated }) => {
       .then((response) => {
         localStorage.clear();
         localStorage.setItem("token", JSON.stringify(response.data.token));
-        toast.success("Login realizado com sucesso", {
-          position: "top-right",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        });
         setAuthenticated(true);
         history.push("/dashboard");
       })
@@ -55,15 +43,7 @@ const FormLogin = ({ setAuthenticated }) => {
            * The request was made and the server responded with a
            * status code that falls out of the range of 2xx
            */
-          toast.error(error.response.data.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          alert(error.response.data.message);
         } else {
           // Something happened in setting up the request and triggered an Error
           console.log("Error", error.message);
@@ -72,19 +52,6 @@ const FormLogin = ({ setAuthenticated }) => {
   };
   return (
     <>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      {/* Same as */}
-      <ToastContainer />
       <Box
         sx={{
           display: "flex",
@@ -102,7 +69,7 @@ const FormLogin = ({ setAuthenticated }) => {
 
         <TextField
           fullWidth
-          label="Email"
+          label="E-mail"
           margin="normal"
           variant="outlined"
           size="small"
@@ -118,6 +85,7 @@ const FormLogin = ({ setAuthenticated }) => {
           variant="outlined"
           size="small"
           color="primary"
+          type="password"
           {...register("password")}
           error={!!errors.password}
           helperText={errors.password?.message}
