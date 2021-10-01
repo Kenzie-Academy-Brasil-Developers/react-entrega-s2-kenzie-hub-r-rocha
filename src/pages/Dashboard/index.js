@@ -21,14 +21,14 @@ const Dashboard = ({ authenticated, setAuthenticated }) => {
   const history = useHistory();
 
   const handleClick = () => {
-    setAuthenticated(false);  
+    setAuthenticated(false);
     localStorage.clear();
     history.push("/");
   };
 
   const autentica = () => {
     axios
-      .get("https:kenziehub.herokuapp.com/profile", {
+      .get("https://kenziehub.herokuapp.com/profile", {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
@@ -41,7 +41,7 @@ const Dashboard = ({ authenticated, setAuthenticated }) => {
 
   useEffect(() => {
     autentica();
-  });
+  }, []);
 
   return authenticated ? (
     <>
@@ -72,14 +72,17 @@ const Dashboard = ({ authenticated, setAuthenticated }) => {
           Cadastre aqui as tecnologias que você conhece
         </Typography>
       </Box>
-      <Grid container>
-        <Grid item>
-          <FormTechs token={token} />
-        </Grid>
-        <Grid item>
-          <CardTechs techs={techs} />{" "}
-        </Grid>
-      </Grid>
+      <Box item flexDirection="column">
+        <FormTechs token={token} setTechs={setTechs} />
+      </Box>
+      <Box item>
+        <CardTechs
+          setTechs={setTechs}
+          techs={techs}
+          token={token}
+          user={user}
+        />
+      </Box>
     </>
   ) : (
     <Stack sx={{ width: "55%" }} spacing={2} mt={25}>

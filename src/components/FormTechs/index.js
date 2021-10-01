@@ -4,8 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, TextField } from "@material-ui/core";
 
-const FormTechs = ({ token }) => {
-
+const FormTechs = ({ token, setTechs }) => {
   const schema = yup.object().shape({
     title: yup.string().required("Título é obrigatório"),
     status: yup.string().required("Status é obrigatório"),
@@ -23,7 +22,14 @@ const FormTechs = ({ token }) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        alert("Tecnologia cadastrada com sucesso");
+        axios
+          .get(`https://kenziehub.herokuapp.com/profile`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((response) => {
+            setTechs(response.data.techs);
+            alert("Tecnologia cadastrada com sucesso!");
+          });
       })
       .catch((error) => {
         // Error 😨
