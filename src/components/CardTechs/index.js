@@ -43,7 +43,7 @@ const CardTechs = ({ setTechs, techs, token, user }) => {
   return (
     <Grid container justifyContent="center">
       {techs.map((tech) => (
-        <Grid item key={tech.id} item m={3} borderRadius={5}>
+        <Grid item key={tech.id} m={3} borderRadius={5}>
           <Card sx={{ bgcolor: "hsla(120, 100%, 75%, 0.3)" }}>
             <CardContent>
               <Typography variant="h5" component="div">

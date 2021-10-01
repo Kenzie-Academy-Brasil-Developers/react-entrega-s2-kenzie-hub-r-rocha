@@ -13,10 +13,6 @@ const FormLogin = ({ setAuthenticated }) => {
     password: yup
       .string()
       .min(6, "Mínimo de 6 caracteres")
-      //   .matches(
-      //     /^((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,
-      //     "Senha deve conter ao menos uma letra maiúscula, uma minúscula, um número e um caracter especial!"
-      //   )
       .required("Campo obrigatório"),
   });
 
