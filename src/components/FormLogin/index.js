@@ -27,7 +27,6 @@ const FormLogin = ({ setAuthenticated }) => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleForm = (data) => {
-    console.log(data);
     axios
       .post("https://kenziehub.herokuapp.com/sessions", data)
       .then((response) => {
